@@ -12,8 +12,7 @@ A point to be noted, at the time making the Project dated *26 Feb 2024*, use of 
 
 ## Pictures
 
-<img src="/Pictures/navDrawer.jpeg" alt="App Screenshot" width="175" height="400" />
-<img src="/Pictures/history.jpeg" alt="App Screenshot" width="175" height="400" />
+<img src="/Pictures/navDrawer.jpeg" alt="App Screenshot" width="175" height="400" />  <img src="/Pictures/history.jpeg" alt="App Screenshot" width="175" height="400" />
 
 ## Acknowledgements
 
