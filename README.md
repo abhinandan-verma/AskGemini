@@ -49,8 +49,6 @@ apiKey=randomApiKey123456
 
 - Light/dark mode toggle
 - Live previews
-- Fullscreen mode
-- Cross platform
 
 
 ## 🚀 About Me
@@ -65,4 +63,5 @@ I'm a full stack Android developer from India...
 
 ## Pictures
 
-![App Screenshot](/Pictures/1.png)
+![App Screenshot](/Pictures/navDrawer.jpeg)
+![App Screenshot](/Pictures/history.jpeg)
