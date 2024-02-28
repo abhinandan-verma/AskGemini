@@ -55,6 +55,7 @@ import com.abhinandan.askgemini.R
 import com.abhinandan.askgemini.ui.GeminiLoad
 import com.abhinandan.askgemini.viewmodels.ChatViewModel
 import com.abhinandan.askgemini.viewmodels.HistoryViewModel
+import com.abhinandan.askgemini.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
 
@@ -62,6 +63,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NavApp(
     chatViewModel: ChatViewModel = viewModel(),
+    mainViewModel: MainViewModel = viewModel(),
     historyViewModel: HistoryViewModel = viewModel(),
     startTime: Long = remember {
         System.currentTimeMillis()
@@ -242,7 +244,7 @@ fun NavApp(
             ) {
                 composable("home") {
                     MainScreen(
-                        chatViewModel = chatViewModel,
+                       mainViewModel = mainViewModel,
                         generateUiState = generateUiState,
                         onGenerateClicked = {inputText ->
                             chatViewModel.generateResponse(inputText)

@@ -88,17 +88,6 @@ class ChatViewModel @Inject constructor(private val chatRepository: ChatReposito
 
                 if(response.text != null && response.text!!.isNotEmpty()){
                     _uiState.value = GenerateUiState.Success(response.text!!)
-                    val chat = Chat(
-                        id = 0,
-                        prompt = response.text!!,
-                        fromUser = false,
-                        timeStamp = (System.currentTimeMillis())
-                    )
-                    insertChat(chat)
-                   chatRepository.getAllChats()
-                }
-                if (response.text == null) {
-                    _uiState.value = GenerateUiState.Error("No response found. Please try again.")
                 }
             } catch (e: Exception) {
                 _uiState.value = GenerateUiState.Error(e.localizedMessage ?: "")

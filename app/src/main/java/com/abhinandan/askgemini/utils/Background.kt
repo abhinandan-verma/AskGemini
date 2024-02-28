@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 val linearBackground = Brush.verticalGradient(
     colors = listOf(
         Color(0xFF1E88E5),
-        Color(0xFFFFFFFF),
+        Color(0xFF014404),
     ),
 )
 
