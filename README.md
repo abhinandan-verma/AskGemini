@@ -1,7 +1,7 @@
 
 # AskGemini✨
 
-AskGemini is the the Android implementation og Google Gemini AI.
+AskGemini is the the **Android implementation of Google Gemini AI**.
 It is a real-time AI chat-bot with having all the features of ChatGPT 3.5 app.
 The project is integrated with **Gemini Pro Vision** model of AI to help get all your prompts including visionary ones too, response by the Gemini AI.
 Beside having the text-prompt features, it can also provide **Image-Prompt & Response** feature.
@@ -13,6 +13,11 @@ A point to be noted, at the time making the Project dated *26 Feb 2024*, use of 
 ## Pictures
 
 <img src="/Pictures/navDrawer.jpeg" alt="App Screenshot" width="175" height="400" />  <img src="/Pictures/history.jpeg" alt="App Screenshot" width="175" height="400" />
+
+*Rest Pictures on the way...,* >>>>> they sent me WhatsApp Message that 
+``
+We are comming, as soon we get ready ;)
+``
 
 ## Acknowledgements
 
