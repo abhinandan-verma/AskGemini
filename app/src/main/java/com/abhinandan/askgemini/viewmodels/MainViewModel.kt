@@ -1,5 +1,6 @@
 package com.abhinandan.askgemini.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abhinandan.askgemini.BuildConfig
@@ -21,6 +22,7 @@ class MainViewModel @Inject constructor(private val mainDao: ChatDao) : ViewMode
 
     private val _allChats = MutableStateFlow<List<Chat>>(emptyList())
     val allChats: StateFlow<List<Chat>> = _allChats
+    val _lChats: MutableLiveData<List<Chat>> = MutableLiveData()
 
     fun getAllChatsFromCurrent(time: Long): List<Chat> {
         viewModelScope.launch(Dispatchers.IO) {

@@ -2,6 +2,7 @@ package com.abhinandan.askgemini.screens
 
 import android.widget.ProgressBar
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -143,6 +144,7 @@ fun HistoryScreen(
                ) {
                    items(items = historyList) { chat ->
 
+                       val isExpanded = remember { mutableStateOf(false) }
                        Card(
                            modifier = Modifier
                                .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -153,11 +155,17 @@ fun HistoryScreen(
                                        horizontalBackground
                                    },
                                    shape = RoundedCornerShape(6)
-                               ),
+                               )
+                               .clickable {
+                                   isExpanded.value = !isExpanded.value
+                               },
+                           elevation = CardDefaults.cardElevation(12.dp),
                            colors = CardDefaults.cardColors(Color.Transparent)
                        ) {
                            Column(modifier = Modifier.padding(16.dp)) {
-                               Text(text = chat.prompt, style = MaterialTheme.typography.bodyLarge)
+                               Text(text = chat.prompt,
+                                   maxLines = if (isExpanded.value) Int.MAX_VALUE else 2,
+                               )
                                Spacer(modifier = Modifier.height(8.dp))
                                Text(text = chat.timeStamp.toString(), style = MaterialTheme.typography.bodyMedium)
                            }
