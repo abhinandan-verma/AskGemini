@@ -97,7 +97,7 @@ fun NavApp(
             icon = Icons.Default.Email
         )
     )
-        val generateUiState by chatViewModel.gUiState.collectAsState()
+        val generateUiState by mainViewModel.generativeUiState.collectAsState()
 
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
@@ -247,7 +247,7 @@ fun NavApp(
                        mainViewModel = mainViewModel,
                         generateUiState = generateUiState,
                         onGenerateClicked = {inputText ->
-                            chatViewModel.generateResponse(inputText)
+                            mainViewModel.generateResponse(inputText, startTime)
                         },
                         drawerState = drawerState,
                         startTime = startTime

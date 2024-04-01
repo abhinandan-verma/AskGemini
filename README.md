@@ -14,7 +14,7 @@ A point to be noted, at the time making the Project dated *26 Feb 2024*, use of 
 
 <img src="/Pictures/navDrawer.jpeg" alt="App Screenshot" width="175" height="400" />  <img src="/Pictures/history.jpeg" alt="App Screenshot" width="175" height="400" />
 
-*Rest Pictures on the way...,* >>>>> they sent me WhatsApp Message that 
+*Rest Pictures on the way...,* >>>>> they sent me WhatsApp Message that
 ``
 We are comming, as soon we get ready ;)
 ``

@@ -4,8 +4,10 @@ import android.widget.ProgressBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -13,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
@@ -50,6 +53,8 @@ import com.abhinandan.askgemini.room.Chat
 import com.abhinandan.askgemini.viewmodels.HistoryViewModel
 import com.abhinandan.askgemini.ui.GeminiLoad
 import com.abhinandan.askgemini.ui.NoHistory
+import com.abhinandan.askgemini.utils.horizontalBackground
+import com.abhinandan.askgemini.utils.linearBackground2
 import com.abhinandan.askgemini.utils.toast
 import kotlinx.coroutines.launch
 import java.nio.file.WatchEvent
@@ -67,11 +72,7 @@ fun HistoryScreen(
 
     val lazyState = rememberLazyListState()
 
-    val query by remember {
-        mutableStateOf("")
-    }
-
-   Scaffold (
+    Scaffold (
        topBar = {
            TopAppBar(
                title = {
@@ -143,28 +144,23 @@ fun HistoryScreen(
                    items(items = historyList) { chat ->
 
                        Card(
-                           Modifier
-                               .wrapContentHeight()
-                               .padding(top = 7.dp, bottom = 7.dp, start = 10.dp, end = 10.dp)
-                               .fillMaxWidth(),
-                           colors = CardDefaults.cardColors(
-                               containerColor = if(chat.fromUser) Color.Cyan else Color. White,
-                               contentColor = Color.Black
-                           )
+                           modifier = Modifier
+                               .padding(horizontal = 8.dp, vertical = 4.dp)
+                               .background(
+                                   brush = if (chat.fromUser) {
+                                       linearBackground2
+                                   } else {
+                                       horizontalBackground
+                                   },
+                                   shape = RoundedCornerShape(6)
+                               ),
+                           colors = CardDefaults.cardColors(Color.Transparent)
                        ) {
-                           Text(
-                               text = chat.prompt,
-                               color = Color.Black,
-                               style = MaterialTheme.typography.bodyLarge,
-                               modifier = Modifier.padding(10.dp)
-                           )
-
-                            Text(
-                                 text = chat.timeStamp.toString(),
-                                 color = Color.Black,
-                                 fontSize = 10.sp,
-                                modifier = Modifier.padding(start = 10.dp, bottom = 4.dp)
-                            )
+                           Column(modifier = Modifier.padding(16.dp)) {
+                               Text(text = chat.prompt, style = MaterialTheme.typography.bodyLarge)
+                               Spacer(modifier = Modifier.height(8.dp))
+                               Text(text = chat.timeStamp.toString(), style = MaterialTheme.typography.bodyMedium)
+                           }
                        }
                    }
                }

@@ -4,8 +4,6 @@ sealed interface GenerateUiState {
 
     data object Initial : GenerateUiState
 
-    data object Inserting : GenerateUiState
-
     data object Loading : GenerateUiState
 
     data class Success(

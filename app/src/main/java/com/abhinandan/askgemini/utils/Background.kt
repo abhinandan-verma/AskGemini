@@ -17,17 +17,17 @@ val linearBackground2 = Brush.linearGradient(
         Color(0xFF03ABF9),
         Color(0xFF066BF8),
         Color(0xFF5126FA),
-        Color(0xFFFF3EC2),
-        Color(0xFFED7D5B),
+        Color(0xFFD835A4),
+        Color(0xFFDE6743),
     )
 )
 
 val horizontalBackground = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFF0202F8),
-        Color(0xFF046AA1),
-        Color(0xFF5D65F3),
-        Color(0xFF039BE5),
-        Color(0xFFC89EFD),
+        Color(0xFF0E58F6),
+        Color(0xFF06857A),
+        Color(0xFF198D34),
+        Color(0xFF01390A),
     )
 )

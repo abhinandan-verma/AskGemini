@@ -31,7 +31,7 @@ interface ChatDao {
     @Query("SELECT * FROM chat_table ORDER BY id")
     suspend fun sortAllChatById(): List<Chat>
 
-    @Query("SELECT * FROM chat_table WHERE timeStamp > :time")
+    @Query("SELECT * FROM chat_table WHERE timeStamp >= :time")
     suspend fun getAllChatsFromCurrent(time: Long): List<Chat>
 
     @Query("SELECT * FROM chat_table ORDER BY timeStamp DESC")

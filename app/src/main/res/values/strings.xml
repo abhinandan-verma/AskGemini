@@ -3,4 +3,5 @@
     <string name="action_go">Go</string>
     <string name="summarize_label">Text to summarize</string>
     <string name="summarize_hint">Enter text or a URL to summarize</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>

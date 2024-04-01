@@ -18,7 +18,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-
     <application
         android:name=".HiltApp"
         android:allowBackup="true"
@@ -30,6 +29,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AskGemini"
         tools:targetApi="31">
+        <activity
+            android:name=".auth.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AskGemini" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

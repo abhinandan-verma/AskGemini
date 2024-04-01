@@ -1,6 +1,6 @@
 package com.abhinandan.askgemini.screens
 
-import android.widget.ImageButton
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,11 +34,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.abhinandan.askgemini.R
+import com.abhinandan.askgemini.auth.LoginActivity
 import com.abhinandan.askgemini.ui.GeminiLoad
+import com.abhinandan.askgemini.ui.theme.BluePrimary
+import com.abhinandan.askgemini.ui.theme.BlueSecondary
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,10 +96,7 @@ fun ProfileScreen(
                         .fillMaxWidth()
                         .padding(it),
         ){
-
-            Text(text = "Profile Screen", color = Color.Yellow)
-
-            NewUserProfile()
+            SignedUpProfile()
 
         }
 
@@ -98,12 +105,80 @@ fun ProfileScreen(
 
 @Composable
 fun SignedUpProfile() {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(5.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ){
 
+        Spacer(modifier =Modifier.height(10.dp))
+
+        Image(
+            painter = painterResource(id = R.drawable.profile),
+            contentDescription = "Profile",
+            modifier = Modifier
+                .size(150.dp)
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(
+            text = "Hello Abhinandan",
+            color = Color.Yellow,
+            fontSize = 30.sp,
+            fontStyle = FontStyle.Italic
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TextCard(
+            color = BlueSecondary,
+            text = "Id: 1234567890",
+            size = 15
+        )
+
+        TextCard(
+            color = BluePrimary,
+            text = "Email: email@gmail.com",
+            size = 15
+        )
+
+        TextCard(
+            color = BlueSecondary,
+            text = "AI Token: 1234567890",
+            size = 15
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Button(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.buttonColors(Color.Red),
+            modifier = Modifier.width(200.dp)
+        ) {
+            Text(text = "Edit Profile", color = Color.White)
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Button(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.buttonColors(Color.Green),
+            modifier = Modifier.width(300.dp)
+        ) {
+            Text(text = "Share the App", color = Color.Black )
+        }
+
+    }
 }
 
 @Composable
 fun NewUserProfile() {
 
+    val context  = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -132,11 +207,12 @@ fun NewUserProfile() {
 
         Button(
             onClick = {
-
+                val intent = Intent(context, LoginActivity::class.java)
+                context.startActivity(intent)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text ="Sign In", color = Color.Black)
+            Text(text ="Login", color = Color.Black)
         }
 
         Spacer(modifier =Modifier.height(20.dp))
@@ -161,6 +237,35 @@ fun NewUserProfile() {
             colors = ButtonDefaults.buttonColors(Color.Magenta)
         ) {
             Text(text ="Sign Up", color = Color.White)
+        }
+    }
+}
+
+@Composable
+fun TextCard(
+    modifier: Modifier = Modifier,
+    color: Color,
+    text: String,
+    size:Int,
+
+) {
+    Card(
+        modifier = modifier
+            .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp)
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(color),
+        onClick = {
+//            Log.d("TextCard", "TextCard: $text")
+        }
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Absolute.SpaceAround,
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(10.dp),
+                fontSize = size.sp
+            )
         }
     }
 }
