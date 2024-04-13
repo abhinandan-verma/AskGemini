@@ -1,4 +1,4 @@
-package com.abhinandan.askgemini.auth
+package com.abhinandan.askgemini.auth.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,11 +27,10 @@ import androidx.compose.ui.unit.sp
 import com.abhinandan.askgemini.R
 import com.abhinandan.askgemini.ui.GeminiLoad
 import com.abhinandan.askgemini.ui.theme.BluePrimary
-import com.abhinandan.askgemini.ui.theme.BlueTertiary
 
 @Preview
 @Composable
-fun SignUp(modifier: Modifier = Modifier) {
+fun SignUpScreen(modifier: Modifier = Modifier) {
     Column (
         modifier = modifier
             .fillMaxSize()
@@ -99,17 +100,19 @@ fun SignUp(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.size(10.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+
+            },
             colors = ButtonDefaults.buttonColors(BluePrimary),
             modifier = Modifier.width(330.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.arrow),
-                    contentDescription = "Google Logo",
-                    modifier = Modifier.size(30.dp)
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "Email",
+                    tint = Color.Black,
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Text(

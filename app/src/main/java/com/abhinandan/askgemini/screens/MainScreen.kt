@@ -1,5 +1,7 @@
 package com.abhinandan.askgemini.screens
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -27,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,14 +48,18 @@ import com.abhinandan.askgemini.GenerateUiState
 import com.abhinandan.askgemini.R
 import com.abhinandan.askgemini.room.Chat
 import com.abhinandan.askgemini.ui.GeminiLoad
+import com.abhinandan.askgemini.utils.SpeechRecognizerContract
 import com.abhinandan.askgemini.utils.horizontalBackground
 import com.abhinandan.askgemini.utils.linearBackground2
 import com.abhinandan.askgemini.utils.toast
 import com.abhinandan.askgemini.viewmodels.MainViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class
 )
 @Composable
 fun MainScreen(
@@ -69,17 +77,42 @@ fun MainScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    if(mainViewModel.state.text != null){
+        prompt = mainViewModel.state.text
+            .toString().removePrefix("[").removeSuffix("]")
+        mainViewModel.state.text = null
+    }
+
+
+    // Speech Recognition
+
+    val permissionState = rememberPermissionState(
+        permission = Manifest.permission.RECORD_AUDIO
+    )
+    SideEffect {
+        permissionState.launchPermissionRequest()
+    }
+
+    val speechRecognizerLauncher = rememberLauncherForActivityResult(
+        contract = SpeechRecognizerContract(),
+        onResult = {
+            mainViewModel.changeTextValue(it.toString())
+
+        }
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
+                   Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
-                    ){
-                        GeminiLoad(Modifier.size(63.dp))
+
+                   ){
+                        GeminiLoad(Modifier.size(83.dp))
                         Text(
-                            text = "Main",
+                            text = " Main",
                             fontSize = 20.sp,
                             color = Color.White
                         )
@@ -155,6 +188,45 @@ fun MainScreen(
             )
         },
 
+        floatingActionButton = {
+            Column{
+                FloatingActionButton(
+                    onClick = {
+
+                    },
+                    shape = CircleShape,
+                    containerColor = Color.Cyan
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.camera),
+                        contentDescription = "Generate",
+                        tint = Color.Black,
+                        modifier = Modifier.size(35.dp)
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(10.dp))
+                
+                FloatingActionButton(
+                    onClick = {
+                        if (permissionState.status.isGranted) {
+                            speechRecognizerLauncher.launch(Unit)
+                        } else
+                            permissionState.launchPermissionRequest()
+                    },
+                    shape = CircleShape,
+                    containerColor = Color.Red
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.micon),
+                        contentDescription = "Generate",
+                        tint = Color.White,
+                        modifier = Modifier.size(35.dp)
+                    )
+                }
+            }
+        }
+
     ) {padding ->
 
         val mainList = mainViewModel.allChats.collectAsState(initial = emptyList())
@@ -193,9 +265,24 @@ fun MainScreen(
             when(generateUiState){
                 is GenerateUiState.Loading -> {
                     item {
-                        LinearProgressIndicator(
-                            modifier = Modifier.padding(top = 20.dp)
-                        )
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            GeminiLoad(
+                                rawFile = R.raw.gpt,
+                                modifier = Modifier.size(70.dp),
+                                speed = 2F
+                            )
+                            Text(
+                                text = "Generating response...",
+                                fontSize = 20.sp,
+                                color = Color.White,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
                     }
                 }
                 is GenerateUiState.Success -> {
@@ -203,12 +290,42 @@ fun MainScreen(
                 }
                 is GenerateUiState.Error -> {
                     item {
-                        GeminiLoad(Modifier.size(63.dp))
+
+                        Card(
+                            colors = CardDefaults.cardColors(Color.Red),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp)
+                        ) {
+                            Text(
+                                text = "Error: ${generateUiState.errorMessage}",
+                                fontSize = 20.sp,
+                                color = Color.Red,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
                     }
                 }
                 is GenerateUiState.Initial -> {
                     item {
-                       Text(text = "Welcome to Gemini", fontSize = 20.sp)
+                       Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+
+                       ){
+                            GeminiLoad(Modifier.size(63.dp))
+                            Spacer(modifier = Modifier.size(8.dp))
+                            Text(
+                                text = "How can I help you, today?",
+                                fontSize = 20.sp,
+                                color = Color.White,
+                                modifier = Modifier
+                                    .background(Color.Blue, RoundedCornerShape(15.dp))
+                                    .padding(8.dp)
+                            )
+                       }
                     }
                     mainViewModel.getAllChatsFromCurrent(time)
                 }

@@ -27,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -37,15 +38,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.abhinandan.askgemini.R
 import com.abhinandan.askgemini.auth.LoginActivity
+import com.abhinandan.askgemini.getActivity
 import com.abhinandan.askgemini.ui.GeminiLoad
 import com.abhinandan.askgemini.ui.theme.BluePrimary
 import com.abhinandan.askgemini.ui.theme.BlueSecondary
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,6 +110,8 @@ fun ProfileScreen(
 
 @Composable
 fun SignedUpProfile() {
+
+    val context = LocalContext.current
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -170,6 +177,27 @@ fun SignedUpProfile() {
             modifier = Modifier.width(300.dp)
         ) {
             Text(text = "Share the App", color = Color.Black )
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TextButton(
+            onClick = {
+                val auth = FirebaseAuth.getInstance()
+                auth.signOut()
+                val intent = Intent(context, LoginActivity::class.java)
+                context.startActivity(intent)
+                context.getActivity()?.finish()
+            },
+            Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = "Sign Out",
+                color = Color.Red,
+                fontSize = 20.sp,
+                textDecoration = TextDecoration.Underline,
+                fontWeight = FontWeight.ExtraBold
+            )
         }
 
     }

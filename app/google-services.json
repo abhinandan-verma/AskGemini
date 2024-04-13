@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "263778647555",
+    "firebase_url": "https://fir-app-85731-default-rtdb.firebaseio.com",
+    "project_id": "fir-app-85731",
+    "storage_bucket": "fir-app-85731.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263778647555:android:20b6c89d7e940323595836",
+        "android_client_info": {
+          "package_name": "com.abhinandan.askgemini"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV785hNR9BjIXzgD_ece1Az110NiJgoao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263778647555:android:2833e999f18766d7595836",
+        "android_client_info": {
+          "package_name": "com.abhinandan.askgemini"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV785hNR9BjIXzgD_ece1Az110NiJgoao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263778647555:android:4b4f9b14ab1fb6b8595836",
+        "android_client_info": {
+          "package_name": "com.example.firebaseapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV785hNR9BjIXzgD_ece1Az110NiJgoao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

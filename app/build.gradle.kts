@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -99,11 +100,18 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:6.3.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
 
-    implementation("com.github.ZahraFatehi1378:CurvedBottomNavigation:1.0.0")
-
     // data store
     implementation(libs.androidx.datastore.preferences)
 
     //accompanist
     implementation(libs.accompanist.permissions)
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+    implementation("com.google.firebase:firebase-database")
+
+    implementation("androidx.compose.material:material-icons-extended:1.6.5")
 }
