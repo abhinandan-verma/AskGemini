@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -34,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -121,16 +123,15 @@ fun SignedUpProfile() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
 
-        Spacer(modifier =Modifier.height(10.dp))
-
         Image(
             painter = painterResource(id = R.drawable.profile),
             contentDescription = "Profile",
             modifier = Modifier
-                .size(150.dp)
+                .clip(CircleShape)
+
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+
 
         Text(
             text = "Hello Abhinandan",

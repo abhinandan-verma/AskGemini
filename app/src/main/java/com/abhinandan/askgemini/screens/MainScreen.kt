@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.MicNone
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
@@ -48,6 +55,7 @@ import com.abhinandan.askgemini.GenerateUiState
 import com.abhinandan.askgemini.R
 import com.abhinandan.askgemini.room.Chat
 import com.abhinandan.askgemini.ui.GeminiLoad
+import com.abhinandan.askgemini.ui.theme.BlueSecondary
 import com.abhinandan.askgemini.utils.SpeechRecognizerContract
 import com.abhinandan.askgemini.utils.horizontalBackground
 import com.abhinandan.askgemini.utils.linearBackground2
@@ -56,6 +64,10 @@ import com.abhinandan.askgemini.viewmodels.MainViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import de.charlex.compose.BottomAppBarSpeedDialFloatingActionButton
+import de.charlex.compose.FloatingActionButtonItem
+import de.charlex.compose.SubSpeedDialFloatingActionButtons
+import de.charlex.compose.rememberSpeedDialFloatingActionButtonState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -83,6 +95,7 @@ fun MainScreen(
         mainViewModel.state.text = null
     }
 
+    val fabState = rememberSpeedDialFloatingActionButtonState()
 
     // Speech Recognition
 
@@ -136,95 +149,104 @@ fun MainScreen(
             )
         },
         bottomBar = {
-            OutlinedTextField(
-                value = prompt,
-                onValueChange = { prompt = it },
-                label = {
+
+            BottomAppBar(
+                contentColor = Color.White,
+                containerColor = Color.Transparent,
+                contentPadding = PaddingValues(1.dp)
+            ) {
+                OutlinedTextField(
+                    value = prompt,
+                    onValueChange = { prompt = it },
+                    label = {
                         Text(
-                        text = "Prompt",
-                        fontSize = 16.sp
-                    )
-                },
-                placeholder = {
-                    Text(
-                        text = "Enter a prompt",
-                        fontSize = 16.sp
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .background(Color.Transparent, RoundedCornerShape(8.dp)),
-                trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            if (prompt.isNotEmpty() &&  prompt.isNotBlank()) {
-                                onGenerateClicked(prompt)
-                                val chat = Chat(
-                                    id = 0,
-                                    prompt = prompt,
-                                    fromUser = true,
-                                    timeStamp = System.currentTimeMillis()
-                                )
-                                mainViewModel.upsertChat(chat, time)
-                                prompt = ""
-                            }else{
-                                toast(context =context, message = "Please enter a prompt")
-                            }
-
-                        },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .background(Color.Transparent, CircleShape),
-                        enabled = prompt.isNotEmpty()
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.gembtn),
-                            contentDescription = "Generate",
-                            tint = if (prompt.isNotEmpty()) Color.Green else Color.Gray
+                            text = "Prompt",
+                            fontSize = 16.sp
                         )
+                    },
+                    placeholder = {
+                        Text(
+                            text = "Enter a prompt",
+                            fontSize = 16.sp
+                        )
+                    },
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .background(Color.Transparent, RoundedCornerShape(8.dp)),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                if (prompt.isNotEmpty() && prompt.isNotBlank()) {
+                                    onGenerateClicked(prompt)
+                                    val chat = Chat(
+                                        id = 0,
+                                        prompt = prompt,
+                                        fromUser = true,
+                                        timeStamp = System.currentTimeMillis()
+                                    )
+                                    mainViewModel.upsertChat(chat, time)
+                                    prompt = ""
+                                } else {
+                                    toast(context = context, message = "Please enter a prompt")
+                                }
+
+                            },
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .background(Color.Transparent, CircleShape),
+                            enabled = prompt.isNotEmpty()
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.gembtn),
+                                contentDescription = "Generate",
+                                tint = if (prompt.isNotEmpty()) Color.Green else Color.Gray
+                            )
+                        }
                     }
-                }
-            )
-        },
+                )
 
-        floatingActionButton = {
-            Column{
-                FloatingActionButton(
-                    onClick = {
-
-                    },
+                BottomAppBarSpeedDialFloatingActionButton(
+                    state = fabState,
+                    containerColor = Color.Cyan,
                     shape = CircleShape,
-                    containerColor = Color.Cyan
+                    contentColor = Color.Black,
+                    modifier = Modifier.size(50.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.camera),
-                        contentDescription = "Generate",
-                        tint = Color.Black,
-                        modifier = Modifier.size(35.dp)
-                    )
-                }
-                
-                Spacer(modifier = Modifier.height(10.dp))
-                
-                FloatingActionButton(
-                    onClick = {
-                        if (permissionState.status.isGranted) {
-                            speechRecognizerLauncher.launch(Unit)
-                        } else
-                            permissionState.launchPermissionRequest()
-                    },
-                    shape = CircleShape,
-                    containerColor = Color.Red
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.micon),
-                        contentDescription = "Generate",
-                        tint = Color.White,
-                        modifier = Modifier.size(35.dp)
+                        painter = painterResource(id = R.drawable.gembtn),
+                        contentDescription = null,
+                        tint = Color.White
                     )
                 }
             }
+        },
+
+        floatingActionButton = {
+                SubSpeedDialFloatingActionButtons(
+                    items = listOf(
+                        FloatingActionButtonItem(
+                            icon = Icons.Default.MicNone,
+                            label = "Speak"
+                        ) {
+                            if (permissionState.status.isGranted) {
+                                speechRecognizerLauncher.launch(Unit)
+                            } else
+                                permissionState.launchPermissionRequest()
+                        },
+                        FloatingActionButtonItem(
+                            icon = Icons.Default.Camera,
+                            label = "Scan"
+                        ) {
+                            if (permissionState.status.isGranted) {
+                                speechRecognizerLauncher.launch(Unit)
+                            } else
+                                permissionState.launchPermissionRequest()
+                        },
+                    ),
+                    state = fabState
+                ) {
+
+                }
         }
 
     ) {padding ->
@@ -315,14 +337,16 @@ fun MainScreen(
                             modifier = Modifier.fillMaxWidth()
 
                        ){
-                            GeminiLoad(Modifier.size(63.dp))
+                            GeminiLoad(
+                                Modifier.size(103.dp),
+                            )
                             Spacer(modifier = Modifier.size(8.dp))
                             Text(
                                 text = "How can I help you, today?",
                                 fontSize = 20.sp,
                                 color = Color.White,
                                 modifier = Modifier
-                                    .background(Color.Blue, RoundedCornerShape(15.dp))
+                                    .background(BlueSecondary, RoundedCornerShape(15.dp))
                                     .padding(8.dp)
                             )
                        }

@@ -114,4 +114,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
 
     implementation("androidx.compose.material:material-icons-extended:1.6.5")
+
+    //FAB
+    implementation("de.charlex.compose:speeddial-bottomappbar-material3:1.1.1")
 }
